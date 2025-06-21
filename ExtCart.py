@@ -1,14 +1,13 @@
 from dotenv import load_dotenv
-import os
-
-load_dotenv()
-TOKEN = os.getenv("BOT_TOKEN")
-
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from datetime import datetime
 import os
 import json
+
+#Carregar TOKEN do arquivo .env
+load_dotenv()
+TOKEN = os.getenv("BOT_TOKEN")
 
 # Nome do arquivo onde vamos salvar os dados
 ARQUIVO_DADOS = 'carteiras.json'
@@ -34,7 +33,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "Olá! Eu sou seu bot de carteira financeira. 💰\n\n"
         "📌 Comandos disponíveis:\n"
-        "/inicial <valor> → Definir saldo inicial\n"
+        "/saldo <valor> → Adicionar saldo\n"
         "/recebeu <valor> <descrição> → Registrar um ganho\n"
         "/gastou <valor> <descrição> → Registrar um gasto\n"
         "/extrato → Ver o extrato e saldo atual\n"
@@ -42,7 +41,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "/exportar → Exportar extrato em .txt"
     )
 
-async def inicial(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def saldo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = str(update.effective_user.id)
     if user_id not in carteiras:
         carteiras[user_id] = []
@@ -50,11 +49,11 @@ async def inicial(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         valor = float(context.args[0])
         data_hora = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
-        carteiras[user_id].append(['Saldo Inicial', valor, 'Saldo Adicionado', data_hora])
+        carteiras[user_id].append(['Saldo Adicionado', valor, 'Saldo Adicionado', data_hora])
         salvar_dados()
-        await update.message.reply_text(f"✅ Saldo inicial de R$ {valor:.2f} definido em {data_hora}")
+        await update.message.reply_text(f"✅ Saldo adicionado de R$ {valor:.2f} definido em {data_hora}")
     except (IndexError, ValueError):
-        await update.message.reply_text("❌ Uso correto: /inicial <valor>")
+        await update.message.reply_text("❌ Uso correto: /saldo <valor>")
 
 async def recebeu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = str(update.effective_user.id)
@@ -95,7 +94,7 @@ async def extrato(update: Update, context: ContextTypes.DEFAULT_TYPE):
     saldo = 0
     linhas = []
     for tipo, valor, descricao, data_hora in carteiras[user_id]:
-        if tipo == 'Entrada' or tipo == 'Saldo Inicial':
+        if tipo == 'Entrada' or tipo == 'Saldo Adicionado':
             saldo += valor
             sinal = '+'
         else:
@@ -125,7 +124,7 @@ async def exportar(update: Update, context: ContextTypes.DEFAULT_TYPE):
     saldo = 0
     linhas = []
     for tipo, valor, descricao, data_hora in carteiras[user_id]:
-        if tipo == 'Entrada' or tipo == 'Saldo Inicial':
+        if tipo == 'Entrada' or tipo == 'Saldo Adicionado':
             saldo += valor
             sinal = '+'
         else:
@@ -148,7 +147,7 @@ if __name__ == '__main__':
     app = ApplicationBuilder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("inicial", inicial))
+    app.add_handler(CommandHandler("saldo", saldo))
     app.add_handler(CommandHandler("recebeu", recebeu))
     app.add_handler(CommandHandler("gastou", gastou))
     app.add_handler(CommandHandler("extrato", extrato))
