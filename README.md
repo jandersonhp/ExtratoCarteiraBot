@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jandersonhp/ExtratoCarteiraBot/refs/heads/main/assets/bannerpic.png" alt="Carteira Bot" width="600"/>
+  <img src="https://raw.githubusercontent.com/jandersonhp/ExtratoCarteiraBot/refs/heads/main/assets/banner.png" alt="Carteira Bot" width="700"/>
 </p>
 
 # 🤖 Extrato Carteira Bot - Telegram
