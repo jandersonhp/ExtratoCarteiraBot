@@ -104,6 +104,7 @@ async def extrato(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     resumo = "\n".join(linhas)
     resumo += f"\n\n💰 Saldo atual: R$ {saldo:.2f}"
+    resumo += "\n\n📢 Não esqueça de exportar seu extrato com /exportar para não perder seus registros!"
     await update.message.reply_text(resumo)
 
 async def limpar(update: Update, context: ContextTypes.DEFAULT_TYPE):

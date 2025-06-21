@@ -4,6 +4,8 @@
 Este é um bot de Telegram simples para gerenciamento financeiro pessoal (tipo uma carteira digital básica).  
 Ele permite ao usuário registrar ganhos, gastos e visualizar o extrato com saldo atualizado.
 
+Bot Configurado no Telegram: [@ExtCart_Bot](https://t.me/extcart_bot)
+
 ---
 
 ## ✅ Funcionalidades
@@ -46,7 +48,7 @@ Nunca compartilhe seu token publicamente.
 ### 1. Clone o projeto:
 
 ```bash
-git clone https://github.com/seuusuario/ExtratoCarteiraBot.git
+git clone https://github.com/jandersonhp/ExtratoCarteiraBot.git
 cd ExtratoCarteiraBot
 ```
 
