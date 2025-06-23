@@ -48,7 +48,7 @@ async def saldo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         valor = float(context.args[0])
-        data_hora = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+        data_hora = datetime.now().strftime('%d/%m/%Y')
         carteiras[user_id].append(['Saldo Adicionado', valor, 'Saldo Adicionado', data_hora])
         salvar_dados()
         await update.message.reply_text(f"✅ Saldo adicionado de R$ {valor:.2f} definido em {data_hora}")
@@ -63,7 +63,7 @@ async def recebeu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         valor = float(context.args[0])
         descricao = ' '.join(context.args[1:]) if len(context.args) > 1 else 'Sem descrição'
-        data_hora = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+        data_hora = datetime.now().strftime('%d/%m/%Y')
         carteiras[user_id].append(['Entrada', valor, descricao, data_hora])
         salvar_dados()
         await update.message.reply_text(f"✅ Registrado: +R$ {valor:.2f} ({descricao}) em {data_hora}")
@@ -78,7 +78,7 @@ async def gastou(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         valor = float(context.args[0])
         descricao = ' '.join(context.args[1:]) if len(context.args) > 1 else 'Sem descrição'
-        data_hora = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+        data_hora = datetime.now().strftime('%d/%m/%Y')
         carteiras[user_id].append(['Saída', valor, descricao, data_hora])
         salvar_dados()
         await update.message.reply_text(f"✅ Registrado: -R$ {valor:.2f} ({descricao}) em {data_hora}")
